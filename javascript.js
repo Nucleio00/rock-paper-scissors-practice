@@ -3,40 +3,86 @@
 // Assign that number a value of rock, paper, or scissors
 // check win within functions
 
-const gameList = ["rock", "paper", "scissors"]
+let playerScore = 0
+let computerScore = 0
 
-const playerGuess = prompt("guess, rock, paper, or scissors")
-const computerGuess = gameList[Math.floor(Math.random() * gameList.length)]
+// const computerGuess = gameList[Math.floor(Math.random() * gameList.length)]
 
-console.log(playerGuess)
-console.log(computerGuess)
+// console.log(playerGuess)
+// console.log(computerGuess)
+
+
+function computerGuess() {
+    const gameList = ["rock", "paper", "scissors"]
+    return gameList[Math.floor(Math.random() * gameList.length)]
+}
 
 function guessRock(computerGuess) {
     if ("rock" === computerGuess) {console.log("tie")}
-    else if (computerGuess === "paper") {console.log("lose")}
-    else if (computerGuess === "scissors") {console.log("win")}
+    else if (computerGuess === "paper") {console.log("lose"), computerScore +=1}
+    else if (computerGuess === "scissors") {console.log("win"), playerScore +=1}
 }
 
 function guessPaper(computerGuess) {
     if ("paper" === computerGuess) {console.log("tie")}
-    else if (computerGuess === "scissors") {console.log("lose")}
-    else if (computerGuess === "rock") {console.log("win")}
+    else if (computerGuess === "scissors") {console.log("lose"), computerScore +=1}
+    else if (computerGuess === "rock") {console.log("win"), playerScore +=1}
 }
 
 function guessScissors(computerGuess) {
     if ("scissors" === computerGuess) {console.log("tie")}
-    else if (computerGuess === "rock") {console.log("lose")}
-    else if (computerGuess === "paper") {console.log("win")}
+    else if (computerGuess === "rock") {console.log("lose"), computerScore +=1}
+    else if (computerGuess === "paper") {console.log("win"), playerScore +=1}
 }
 
-function checkWin (playerGuess, computerGuess) {
-    if (playerGuess === "rock") { 
-        return guessRock(computerGuess);
-    } else if (playerGuess === "paper") {
-        return guessPaper(computerGuess);
-    } else if (playerGuess === "scissors") {
-        return guessScissors(computerGuess);
-    } else {
-        return "invalid input"
-    }
+function displayScores () {
+    console.log(`Playerscore = ${playerScore}`);
+    console.log(`Computerscore = ${computerScore}`);
 }
+
+function playRound () {
+
+    let currentGuess = computerGuess();
+    let playerGuess = prompt("guess, rock, paper, or scissors");
+
+    if (playerGuess === "rock") { 
+        guessRock(currentGuess);
+        displayScores();
+    } else if (playerGuess === "paper") {
+        guessPaper(currentGuess);
+        displayScores();
+    } else if (playerGuess === "scissors") {
+        guessScissors(currentGuess);
+        displayScores();
+    } else {
+        "invalid input"
+    }
+
+}
+
+function playgame() {
+    roundsPlayed = 0
+    confirmation = confirm("want to play?")
+    if (confirmation === true) {
+        while (roundsPlayed < 5) {
+            playRound()
+            roundsPlayed += 1
+        } 
+        if (playerScore === computerScore){
+            displayScores()
+            console.log("game tie")
+        }
+        if (computerScore > playerScore){
+            displayScores()
+            console.log("computer wins")
+        }
+        else {
+            displayScores()
+            console.log("Player wins")
+        }
+    } else{
+        console.log("bye")
+    }
+    }
+
+playgame()
